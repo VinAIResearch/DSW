@@ -1,12 +1,12 @@
-##Distributional Sliced Wasserstein distance
-###Requirement
+## Distributional Sliced Wasserstein distance
+### Requirement
 
 * python3.6
 * pytorch 1.3
 * torchvision
 * numpy
 * tqdm
-###Train MNIST and FMNIST
+### Train MNIST and FMNIST
 ``` 
 python mnist.py \
     --datadir='./' \
@@ -43,7 +43,7 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 --r=1000;\
 --g='circular'
 ````
-###Train CELEBA and CIFAR10
+### Train CELEBA and CIFAR10
 ``` 
 python main.py \
     --datadir='./' \
