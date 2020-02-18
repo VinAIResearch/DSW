@@ -1,15 +1,15 @@
 from __future__ import print_function
 from MnistAutoencoder import MnistAutoencoder
-from TransformNet import *
-
+from TransformNet import TransformNet
+import torch
 import argparse
 import os
 from torch import optim
 from torchvision import transforms
-from experiments import *
+from experiments import sampling,reconstruct
 from tqdm import tqdm
 import torchvision.datasets as datasets
-from utils import *
+from utils import circular_function
 
 # torch.backends.cudnn.enabled = False
 

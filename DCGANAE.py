@@ -1,5 +1,7 @@
 import torch.nn as nn
-from utils import *
+import torch
+from utils import sliced_wasserstein_distance,generalized_sliced_wasserstein_distance,distributional_sliced_wasserstein_distance,\
+    distributional_generalized_sliced_wasserstein_distance,max_sliced_wasserstein_distance,cramer_loss
 class LSUNEncoder(nn.Module):
     def __init__(self,image_size,latent_size,num_chanel,hidden_chanels=64):
         super(LSUNEncoder,self).__init__()

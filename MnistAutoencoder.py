@@ -1,5 +1,7 @@
 import torch.nn as nn
-from utils import *
+import torch
+from utils import sliced_wasserstein_distance,generalized_sliced_wasserstein_distance,distributional_sliced_wasserstein_distance,\
+    distributional_generalized_sliced_wasserstein_distance,max_sliced_wasserstein_distance,cramer_loss,compute_Sinkhorn_loss
 class G_function(nn.Module):
     def __init__(self, dim):
         super(G_function, self).__init__()

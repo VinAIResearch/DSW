@@ -1,25 +1,24 @@
 from __future__ import print_function
-from MnistAutoencoder import MnistAutoencoder
-from TransformNet import *
+from TransformNet import TransformNet
 
 from DCGANAE import DCGANAE,Discriminator
 
 
-import torch.utils.data as utils
+import torch
 import argparse
 import os
-from torch import nn, optim
+from torch import  optim
 
-from torchvision import datasets, transforms
+from torchvision import transforms
 
-from experiments import *
+from experiments import sampling
 from tqdm import tqdm
 import torchvision.datasets as datasets
-from torch.utils.data import Dataset,DataLoader
+from torch.utils.data import Dataset
 from PIL import Image
 from skimage import io
 import random
-from utils import *
+from utils import circular_function,train_net
 # torch.backends.cudnn.enabled = False
 class CustomDataset(Dataset):
     def __init__(self, root, image_loader=io.imread, transform=None):
