@@ -163,7 +163,7 @@ def main():
         if (epoch % 1 == 0):
             model.eval()
             sampling(model_dir + '/sample_epoch_' + str(epoch) + ".png", fixednoise, model.decoder, 64, image_size,
-                     num_chanel, latent_size, device)
+                     num_chanel)
             if ( model_type[0] == 'J'):
                 for _, (input, y) in enumerate(test_loader, start=0):
                     input = input.to(device)
