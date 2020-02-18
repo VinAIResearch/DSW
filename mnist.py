@@ -49,6 +49,7 @@ def main():
     parser.add_argument('--model-type', type=str, required=True,
                         help='(SWD|MSWD|DSWD|GSWD|DGSWD|JSWD|JMSWD|JDSWD|JGSWD|JDGSWD|CRAMER|JCRAMER|SINKHORN|JSINKHORN)')
     args = parser.parse_args()
+
     torch.random.manual_seed(args.seed)
     if (args.g == 'circular'):
         g_function = circular_function
@@ -57,6 +58,8 @@ def main():
     num_projection = args.num_projection
     dataset=args.dataset
     model_dir = os.path.join(args.outdir, model_type)
+    assert dataset in ['MNIST', 'FMNIST']
+    assert model_type in ['SWD','MSWD','DSWD','GSWD','DGSWD','JSWD','JMSWD','JDSWD','JGSWD','JDGSWD','CRAMER','JCRAMER','SINKHORN','JSINKHORN']
     if not (os.path.isdir(args.datadir)):
         os.makedirs(args.datadir)
     if not (os.path.isdir(args.outdir)):

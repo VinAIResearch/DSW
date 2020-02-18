@@ -102,6 +102,8 @@ def main():
     num_projection = args.num_projection
     dataset=args.dataset
     model_dir = os.path.join(args.outdir, model_type)
+    assert dataset in ['CELEBA', 'CIFAR']
+    assert model_type in ['SWD', 'MSWD', 'DSWD', 'GSWD', 'DGSWD', 'CRAMER']
     if not (os.path.isdir(args.datadir)):
         os.makedirs(args.datadir)
     if not (os.path.isdir(args.outdir)):
@@ -128,14 +130,7 @@ def main():
                                  #transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
                              ])),
             batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
-        test_loader = torch.utils.data.DataLoader(
-            datasets.CIFAR10(args.datadir, train=False, download=True,
-                             transform=transforms.Compose([
-                                 transforms.Resize(64),
-                                 transforms.ToTensor(),
-                                 #transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-                             ])),
-            batch_size=64, shuffle=False, num_workers=args.num_workers)
+
 
     elif (dataset =='CELEBA'):
         from DCGANAE import Discriminator
@@ -151,12 +146,9 @@ def main():
         # Create the dataloader
         train_loader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size,
                                                  shuffle=True, num_workers=args.num_workers,pin_memory=True)
-        test_loader = torch.utils.data.DataLoader(dataset, batch_size=64,
-                                                   shuffle=False, num_workers=args.num_workers,pin_memory=True)
-        model = DCGANAE(image_size=64, latent_size=latent_size, num_chanel=3, hidden_chanels=64, device=device).to(
-            device)
-        dis = Discriminator(64,args.latent_size,3,64).to(device)
-        disoptimizer = optim.Adam(dis.parameters(), lr=args.lr, betas=(0.5, 0.999))
+
+
+
     model = DCGANAE(image_size=64, latent_size=latent_size, num_chanel=3, hidden_chanels=64, device=device).to(
         device)
     dis = Discriminator(64, args.latent_size, 3, 64).to(device)
