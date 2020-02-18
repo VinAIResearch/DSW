@@ -6,7 +6,7 @@
 * torchvision
 * numpy
 * tqdm
-### Train MNIST and FMNIST
+### Train on MNIST and FMNIST
 ``` 
 python mnist.py \
     --datadir='./' \
@@ -35,7 +35,7 @@ Options for Max Sliced-Wasserstein distance and Distributional distances (number
 Options for Distributional Sliced-Wasserstein Distance and Distributional Generalized Sliced-Wasserstein Distance (regularization strength)
 
 ````
---lam=1
+--lam=10
 ````
 Options for Generalized Wasserstein Distance (using circular function for Generalized Radon Transform)
 
@@ -43,7 +43,7 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 --r=1000;\
 --g='circular'
 ````
-### Train CELEBA and CIFAR10
+### Train on CELEBA and CIFAR10
 ``` 
 python main.py \
     --datadir='./' \
@@ -79,3 +79,9 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 --r=1000;\
 --g='circular'
 ````
+
+## Some generated images
+##### MNIST generated images
+![MNIST](images/MNIST.png) 
+##### CELEBA generated images
+![MNIST](images/CELEBA.png) 

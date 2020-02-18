@@ -191,7 +191,7 @@ def main():
 
 
         if(epoch%1==0 or epoch==args.epochs-1):
-            sampling(model_dir+'/sample_epoch_'+str(epoch)+".png",fixednoise,model.decoder,64,image_size,num_chanel,latent_size,device)
+            sampling(model_dir+'/sample_epoch_'+str(epoch)+".png",fixednoise,model.decoder,64,image_size,num_chanel)
 
 
 
