@@ -1,4 +1,5 @@
 ## Distributional Sliced Wasserstein distance
+This is a pytorch implementation of the paper "[Distributional Sliced-Wasserstein and Applications to Generative Modeling](https://arxiv.org/pdf/2002.07367.pdf)". The work was done during the residency at [VinAI Research](https://vinai.io), Hanoi, Vietnam.
 ### Requirement
 
 * python3.6
