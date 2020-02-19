@@ -27,7 +27,7 @@ def circular_function(x1, x2, theta, r, p):
     cost_matrix_2 = torch.sqrt(cost_matrix(x2, theta * r))
     wasserstein_distance = torch.abs((torch.sort(cost_matrix_1.transpose(0, 1), dim=1)[0] -
                             torch.sort(cost_matrix_2.transpose(0, 1), dim=1)[0]))
-    wasserstein_distance = torch.sqrt(torch.sum(torch.pow(wasserstein_distance, p), dim=1))
+    wasserstein_distance = torch.pow(torch.sum(torch.pow(wasserstein_distance, p), dim=1),1./p)
     return torch.pow(torch.pow(wasserstein_distance, p).mean(),1./p)
 
 
