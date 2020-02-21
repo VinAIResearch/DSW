@@ -148,10 +148,10 @@ def main():
                 loss = model.compute_loss_cramer(data, torch.randn)
             elif (model_type == 'JCRAMER'):
                 loss = model.compute_loss_join_cramer(data, torch.randn)
-            elif (model_type == 'WVI'):
-                loss = model.compute_wasserstein_vi_loss(data, torch.randn, n_iter=args.niter, p=args.p, e=0.1)
-            elif (model_type == 'JWVI'):
-                loss = model.compute_join_wasserstein_vi_loss(data, torch.randn, n_iter=args.niter, p=args.p, e=0.1)
+            elif (model_type == 'SINKHORN'):
+                loss = model.compute_wasserstein_vi_loss(data, torch.randn, n_iter=args.niter, p=args.p, e=1)
+            elif (model_type == 'JSINKHORN'):
+                loss = model.compute_join_wasserstein_vi_loss(data, torch.randn, n_iter=args.niter, p=args.p, e=1)
 
             optimizer.zero_grad()
             loss.backward()
