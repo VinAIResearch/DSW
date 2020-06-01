@@ -21,7 +21,7 @@ python mnist.py \
     --latent-size=32 \ 
 ```
 ```
-model-type in (SWD|MSWD|DSWD|GSWD|DGSWD|JSWD|JMSWD|JDSWD|JGSWD|JDGSWD|CRAMER|JCRAMER|SINKHORN|JSINKHORN)
+model-type in (SWD|MSWD|DSWD|GSWD|DGSWD|JSWD|JMSWD|JDSWD|JGSWD|JDGSWD|MGSWNN|JMGSWNN|MGSWD|JMGSWD)
 ```
 Options for Sliced distances (number of projections used to approximate the distances)
 ````
