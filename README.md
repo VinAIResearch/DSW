@@ -44,12 +44,12 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 --r=1000;\
 --g='circular'
 ````
-### Train on CELEBA and CIFAR10
+### Train on CELEBA and CIFAR10 and LSUN
 ``` 
 python main.py \
     --datadir='./' \
     --outdir='./result' \
-    --batch-size=128 \
+    --batch-size=512 \
     --seed=16 \
     --p=2 \
     --lr=0.0005 \
@@ -85,4 +85,6 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 ##### MNIST generated images
 ![MNIST](images/MNIST.png) 
 ##### CELEBA generated images
-![MNIST](images/CELEBA.png) 
+![MNIST](images/CelebA.png) 
+##### LSUN generated images
+![MNIST](images/LSUN.png) 

@@ -14,3 +14,11 @@ def sampling(filename,fixednoise,decoder,num_sample,image_size,num_chanel):
 
         save_image(sample.view(num_sample, num_chanel, image_size, image_size), filename,scale_each=True,normalize=True)
 
+def sampling_eps(filename,fixednoise,decoder,num_sample,image_size,num_chanel):
+    with torch.no_grad():
+
+        sample = decoder(fixednoise)
+
+        save_image(sample.view(num_sample, num_chanel, image_size, image_size), filename+'_64.eps',scale_each=True,normalize=True,nrow=8)
+        save_image(sample.view(num_sample, num_chanel, image_size, image_size)[:32], filename+'_32.eps',scale_each=True,normalize=True,nrow=8)
+        save_image(sample.view(num_sample, num_chanel, image_size, image_size)[:16], filename+'_16.eps',scale_each=True,normalize=True,nrow=8)
