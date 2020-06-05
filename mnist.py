@@ -111,7 +111,6 @@ def main():
                                transforms.ToTensor()
                            ])),
             batch_size=10000, shuffle=False, num_workers=args.num_workers)
-        model = MnistAutoencoder(image_size=28, latent_size=args.latent_size, hidden_size=100, device=device).to(device)
         test_loader2 = torch.utils.data.DataLoader(
             datasets.MNIST(args.datadir, train=False, download=True,
                            transform=transforms.Compose([
@@ -121,8 +120,8 @@ def main():
         model = MnistAutoencoder(image_size=28, latent_size=args.latent_size, hidden_size=100, device=device).to(device)
     if (model_type == 'DSWD'  or model_type == 'DGSWD'):
         transform_net = TransformNet(28 * 28).to(device)
-        # op_trannet = optim.Adam(transform_net.parameters(), lr=args.lr, betas=(0.5, 0.999))
-        op_trannet = optim.Adam(transform_net.parameters(), lr=1e-4)
+        op_trannet = optim.Adam(transform_net.parameters(), lr=args.lr, betas=(0.5, 0.999))
+        # op_trannet = optim.Adam(transform_net.parameters(), lr=1e-4)
         # train_net(28 * 28, 1000, transform_net, op_trannet)
     elif (model_type == 'JDSWD' or model_type == 'JDSWD2' or model_type == 'JDGSWD'):
         transform_net = TransformNet(args.latent_size + 28 * 28).to(device)
@@ -139,11 +138,11 @@ def main():
     if(model_type =='MGSWD'):
         theta = torch.randn((1, 784), device=device, requires_grad=True)
         theta.data = theta.data / torch.sqrt(torch.sum(theta.data ** 2, dim=1))
-        opt_theta = torch.optim.Adam([theta], lr=1e-4)
+        opt_theta = optim.Adam(transform_net.parameters(), lr=args.lr, betas=(0.5, 0.999))
     if(model_type =='JMGSWD'):
         theta = torch.randn((1, 784+32), device=device, requires_grad=True)
         theta.data = theta.data / torch.sqrt(torch.sum(theta.data ** 2, dim=1))
-        opt_theta = torch.optim.Adam([theta], lr=1e-4)
+        opt_theta = torch.optim.Adam(transform_net.parameters(), lr=args.lr, betas=(0.5, 0.999))
     optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.5, 0.999))
     fixednoise = torch.randn((64, latent_size)).to(device)
     ite=0
