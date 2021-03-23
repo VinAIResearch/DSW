@@ -1,7 +1,13 @@
-import torch.nn as nn
 import torch
-from utils import sliced_wasserstein_distance,generalized_sliced_wasserstein_distance,distributional_sliced_wasserstein_distance,\
-    distributional_generalized_sliced_wasserstein_distance,max_generalized_sliced_wasserstein_distance
+import torch.nn as nn
+from utils import (
+    distributional_generalized_sliced_wasserstein_distance,
+    distributional_sliced_wasserstein_distance,
+    generalized_sliced_wasserstein_distance,
+    max_generalized_sliced_wasserstein_distance,
+    sliced_wasserstein_distance,
+)
+
 
 class Encoder(nn.Module):
     def __init__(self, image_size, hidden_size, latent_size):
@@ -17,7 +23,6 @@ class Encoder(nn.Module):
             nn.Linear(2 * hidden_size, hidden_size),
             nn.LeakyReLU(0.2, True),
             nn.Linear(hidden_size, self.latent_size),
-
         )
 
     def forward(self, input):
@@ -38,7 +43,7 @@ class Decoder(nn.Module):
             nn.Linear(2 * hidden_size, 4 * hidden_size),
             nn.ReLU(True),
             nn.Linear(4 * hidden_size, self.image_size),
-            nn.ReLU(True)
+            nn.ReLU(True),
         )
 
     def forward(self, input):
@@ -60,9 +65,9 @@ class MnistAutoencoder(nn.Module):
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
 
-        _swd = sliced_wasserstein_distance(data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1),
-                                           num_projection, p,
-                                           self.device)
+        _swd = sliced_wasserstein_distance(
+            data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1), num_projection, p, self.device
+        )
 
         return _swd
 
@@ -74,7 +79,7 @@ class MnistAutoencoder(nn.Module):
 
         return gswd
 
-    def compute_loss_JMGSWNN(self, minibatch, rand_dist, gsw, max_iter,p=2):
+    def compute_loss_JMGSWNN(self, minibatch, rand_dist, gsw, max_iter, p=2):
         data = minibatch.to(self.device)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         x_prior = self.decoder(z_prior)
@@ -90,26 +95,32 @@ class MnistAutoencoder(nn.Module):
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
 
-        _gswd = generalized_sliced_wasserstein_distance(data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1),
-                                                        g_function, r,
-                                                        num_projection, p,
-                                                        self.device)
+        _gswd = generalized_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1),
+            data_fake.view(data.shape[0], -1),
+            g_function,
+            r,
+            num_projection,
+            p,
+            self.device,
+        )
 
         return _gswd
-
-
 
     def compute_loss_JGSWD(self, minibatch, rand_dist, g_function, r, num_projection, p=2):
         data = minibatch.to(self.device)
         z_data = self.encoder(data)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
-        _gswd = generalized_sliced_wasserstein_distance(torch.cat([z_data, data.view(data.shape[0], -1)], dim=1)
-                                                        ,
-                                                        torch.cat([z_prior, data_fake.view(data.shape[0], -1)], dim=1),
-                                                        g_function, r,
-                                                        num_projection, p,
-                                                        self.device)
+        _gswd = generalized_sliced_wasserstein_distance(
+            torch.cat([z_data, data.view(data.shape[0], -1)], dim=1),
+            torch.cat([z_prior, data_fake.view(data.shape[0], -1)], dim=1),
+            g_function,
+            r,
+            num_projection,
+            p,
+            self.device,
+        )
 
         return _gswd
 
@@ -117,11 +128,19 @@ class MnistAutoencoder(nn.Module):
         data = minibatch.to(self.device)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
-        _dswd = distributional_generalized_sliced_wasserstein_distance(data.view(data.shape[0], -1),
-                                                                       data_fake.view(data.shape[0], -1),
-                                                                       num_projections, tnet, op_tnet, g, r,
-                                                                       p, max_iter, lam,
-                                                                       self.device)
+        _dswd = distributional_generalized_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1),
+            data_fake.view(data.shape[0], -1),
+            num_projections,
+            tnet,
+            op_tnet,
+            g,
+            r,
+            p,
+            max_iter,
+            lam,
+            self.device,
+        )
         return _dswd
 
     def compute_lossJDGSWD(self, minibatch, rand_dist, num_projections, tnet, op_tnet, g, r, p=2, max_iter=100, lam=1):
@@ -130,12 +149,18 @@ class MnistAutoencoder(nn.Module):
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
         _dswd = distributional_generalized_sliced_wasserstein_distance(
-            torch.cat([z_data, data.view(data.shape[0], -1)], dim=1)
-            , torch.cat([z_prior, data_fake.view(data.shape[0], -1)],
-                        dim=1),
-            num_projections, tnet, op_tnet, g, r,
-            p, max_iter, lam,
-            self.device)
+            torch.cat([z_data, data.view(data.shape[0], -1)], dim=1),
+            torch.cat([z_prior, data_fake.view(data.shape[0], -1)], dim=1),
+            num_projections,
+            tnet,
+            op_tnet,
+            g,
+            r,
+            p,
+            max_iter,
+            lam,
+            self.device,
+        )
         return _dswd
 
     def compute_loss_JSWD(self, minibatch, rand_dist, num_projection, p=2):
@@ -143,10 +168,13 @@ class MnistAutoencoder(nn.Module):
         z_data = self.encoder(data)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
-        _swd = sliced_wasserstein_distance(torch.cat([z_data, data.view(data.shape[0], -1)], dim=1)
-                                           , torch.cat([z_prior, data_fake.view(data.shape[0], -1)], dim=1),
-                                           num_projection, p,
-                                           self.device)
+        _swd = sliced_wasserstein_distance(
+            torch.cat([z_data, data.view(data.shape[0], -1)], dim=1),
+            torch.cat([z_prior, data_fake.view(data.shape[0], -1)], dim=1),
+            num_projection,
+            p,
+            self.device,
+        )
 
         return _swd
 
@@ -155,12 +183,17 @@ class MnistAutoencoder(nn.Module):
         z_data = self.encoder(data)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
-        _dswd = distributional_sliced_wasserstein_distance(torch.cat([z_data, data.view(data.shape[0], -1)], dim=1)
-                                                           , torch.cat([z_prior, data_fake.view(data.shape[0], -1)],
-                                                                       dim=1),
-                                                           num_projections, tnet, op_tnet,
-                                                           p, max_iter, lam,
-                                                           self.device)
+        _dswd = distributional_sliced_wasserstein_distance(
+            torch.cat([z_data, data.view(data.shape[0], -1)], dim=1),
+            torch.cat([z_prior, data_fake.view(data.shape[0], -1)], dim=1),
+            num_projections,
+            tnet,
+            op_tnet,
+            p,
+            max_iter,
+            lam,
+            self.device,
+        )
         return _dswd
 
     def compute_loss_MSWD(self, minibatch, rand_dist, gsw, max_iter):
@@ -174,14 +207,9 @@ class MnistAutoencoder(nn.Module):
         data = minibatch.to(self.device)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
-        _mswd = max_generalized_sliced_wasserstein_distance(data.view(data.shape[0], -1),
-                                                            data_fake.view(data.shape[0], -1),
-                                                            theta,
-                                                            theta_op,
-                                                            g, r,
-                                                            p,
-                                                            max_iter
-                                                            )
+        _mswd = max_generalized_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1), theta, theta_op, g, r, p, max_iter
+        )
         return _mswd
 
     def compute_loss_JMGSWD(self, minibatch, rand_dist, theta, theta_op, g, r, p=2, max_iter=100):
@@ -191,17 +219,10 @@ class MnistAutoencoder(nn.Module):
         z_encode = self.encoder(data)
         x1 = torch.cat([z_encode, data.view(data.shape[0], -1)], dim=1)
         x2 = torch.cat([z_prior, x_prior.view(data.shape[0], -1)], dim=1)
-        _mswd = max_generalized_sliced_wasserstein_distance(x1,
-                                                            x2,
-                                                            theta,
-                                                            theta_op,
-                                                            g, r,
-                                                            p,
-                                                            max_iter
-                                                            )
+        _mswd = max_generalized_sliced_wasserstein_distance(x1, x2, theta, theta_op, g, r, p, max_iter)
         return _mswd
 
-    def compute_loss_JMSWD(self, minibatch, rand_dist, gsw,max_iter):
+    def compute_loss_JMSWD(self, minibatch, rand_dist, gsw, max_iter):
         data = minibatch.to(self.device)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         x_prior = self.decoder(z_prior)
@@ -211,17 +232,19 @@ class MnistAutoencoder(nn.Module):
         _mswd = gsw.max_gsw(x1, x2, iterations=max_iter)
         return _mswd
 
-        return _swd
-
     def compute_lossDSWD(self, minibatch, rand_dist, num_projections, tnet, op_tnet, p=2, max_iter=100, lam=1):
         data = minibatch.to(self.device)
         z_prior = rand_dist((data.shape[0], self.latent_size)).to(self.device)
         data_fake = self.decoder(z_prior)
-        _dswd = distributional_sliced_wasserstein_distance(data.view(data.shape[0], -1),
-                                                           data_fake.view(data.shape[0], -1), num_projections, tnet,
-                                                           op_tnet,
-                                                           p, max_iter, lam,
-                                                           self.device)
+        _dswd = distributional_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1),
+            data_fake.view(data.shape[0], -1),
+            num_projections,
+            tnet,
+            op_tnet,
+            p,
+            max_iter,
+            lam,
+            self.device,
+        )
         return _dswd
-
-

@@ -7,6 +7,7 @@ This is a pytorch implementation of the paper "[Distributional Sliced-Wasserstei
 * torchvision
 * numpy
 * tqdm
+* POT
 ### Train on MNIST and FMNIST
 ``` 
 python mnist.py \
@@ -58,7 +59,7 @@ python main.py \
     --latent-size=100 \ 
 ```
 ```
-model-type in (SWD|MSWD|DSWD|GSWD|DGSWD|CRAMER)
+model-type in (SWD|MSWD|DSWD|GSWD|DGSWD)
 ```
 Options for Sliced distances (number of projections used to approximate the distances)
 ````
@@ -81,6 +82,18 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 --g='circular'
 ````
 
+## Bibtex:
+````
+@inproceedings{
+nguyen2021distributional,
+title={Distributional Sliced-Wasserstein and Applications to Generative Modeling},
+author={Khai Nguyen and Nhat Ho and Tung Pham and Hung Bui},
+booktitle={International Conference on Learning Representations},
+year={2021},
+url={https://openreview.net/forum?id=QYjO70ACDK}
+}
+````
+Please CITE our paper whenever this repository is used to help produce published results or incorporated into other software
 ## Some generated images
 ##### MNIST generated images
 ![MNIST](images/MNIST.png) 

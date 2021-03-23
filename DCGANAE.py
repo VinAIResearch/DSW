@@ -1,7 +1,11 @@
-import torch.nn as nn
 import torch
-from utils import sliced_wasserstein_distance,generalized_sliced_wasserstein_distance,distributional_sliced_wasserstein_distance,\
-    distributional_generalized_sliced_wasserstein_distance
+import torch.nn as nn
+from utils import (
+    distributional_generalized_sliced_wasserstein_distance,
+    distributional_sliced_wasserstein_distance,
+    generalized_sliced_wasserstein_distance,
+    sliced_wasserstein_distance,
+)
 
 
 class LSUNEncoder(nn.Module):
@@ -57,12 +61,12 @@ class Discriminator(nn.Module):
             nn.LeakyReLU(0.2, inplace=True),
             nn.Conv2d(self.hidden_chanels * 4, self.hidden_chanels * 8, 4, 2, 1, bias=False),
             nn.BatchNorm2d(self.hidden_chanels * 8),
-            nn.Tanh()
+            nn.Tanh(),
         )
         self.main2 = nn.Sequential(
             # state size. (ndf*8) x 4 x 4
             nn.Conv2d(self.hidden_chanels * 8, 1, 4, 1, 0, bias=False),
-            nn.Sigmoid()
+            nn.Sigmoid(),
         )
 
         self.mainz = nn.Sequential(
@@ -74,13 +78,10 @@ class Discriminator(nn.Module):
             nn.BatchNorm2d(self.hidden_chanels * 8 * 4 * 4),
             nn.LeakyReLU(0.2, inplace=True),
         )
-        self.fc = nn.Sequential(
-            nn.Linear(self.hidden_chanels * 8 * 4 * 4 * 2, 1),
-            nn.Sigmoid()
-        )
+        self.fc = nn.Sequential(nn.Linear(self.hidden_chanels * 8 * 4 * 4 * 2, 1), nn.Sigmoid())
 
     def forward(self, x, z=None, flag=False):
-        if (flag == False):
+        if flag is False:
             h = self.main1(x)
             y = self.main2(h).view(x.shape[0], -1)
         else:
@@ -154,9 +155,9 @@ class DCGANAE(nn.Module):
         optimizer.zero_grad()
         errD_fake.backward(retain_graph=True)
         optimizer.step()
-        _swd = sliced_wasserstein_distance(data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1),
-                                           num_projection, p,
-                                           self.device)
+        _swd = sliced_wasserstein_distance(
+            data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1), num_projection, p, self.device
+        )
 
         return _swd
 
@@ -198,15 +199,27 @@ class DCGANAE(nn.Module):
         optimizer.zero_grad()
         errD_fake.backward(retain_graph=True)
         optimizer.step()
-        _gswd = generalized_sliced_wasserstein_distance(data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1),
-                                                        g, r,
-                                                        num_projection, p,
-                                                        self.device)
+        _gswd = generalized_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1), g, r, num_projection, p, self.device
+        )
 
         return _gswd
 
-    def compute_lossDGSWD(self, discriminator, optimizer, minibatch, rand_dist, num_projections, tnet, op_tnet, g, r,
-                          p=2, max_iter=100, lam=1):
+    def compute_lossDGSWD(
+        self,
+        discriminator,
+        optimizer,
+        minibatch,
+        rand_dist,
+        num_projections,
+        tnet,
+        op_tnet,
+        g,
+        r,
+        p=2,
+        max_iter=100,
+        lam=1,
+    ):
         label = torch.full((minibatch.shape[0],), 1, device=self.device)
         criterion = nn.BCELoss()
         data = minibatch.to(self.device)
@@ -223,11 +236,19 @@ class DCGANAE(nn.Module):
         optimizer.zero_grad()
         errD_fake.backward(retain_graph=True)
         optimizer.step()
-        _dswd = distributional_generalized_sliced_wasserstein_distance(data.view(data.shape[0], -1),
-                                                                       data_fake.view(data.shape[0], -1),
-                                                                       num_projections, tnet, op_tnet, g, r,
-                                                                       p, max_iter, lam,
-                                                                       self.device)
+        _dswd = distributional_generalized_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1),
+            data_fake.view(data.shape[0], -1),
+            num_projections,
+            tnet,
+            op_tnet,
+            g,
+            r,
+            p,
+            max_iter,
+            lam,
+            self.device,
+        )
         return _dswd
 
     def compute_loss_MSWD(self, discriminator, optimizer, minibatch, rand_dist, gsw):
@@ -250,8 +271,9 @@ class DCGANAE(nn.Module):
         _mswd = gsw.max_gsw(data.view(data.shape[0], -1), data_fake.view(data.shape[0], -1), iterations=10, lr=1e-4)
         return _mswd
 
-    def compute_lossDSWD(self, discriminator, optimizer, minibatch, rand_dist, num_projections, tnet, op_tnet, p=2,
-                         max_iter=100, lam=1):
+    def compute_lossDSWD(
+        self, discriminator, optimizer, minibatch, rand_dist, num_projections, tnet, op_tnet, p=2, max_iter=100, lam=1
+    ):
         label = torch.full((minibatch.shape[0],), 1, device=self.device)
         criterion = nn.BCELoss()
         data = minibatch.to(self.device)
@@ -268,11 +290,15 @@ class DCGANAE(nn.Module):
         optimizer.zero_grad()
         errD_fake.backward(retain_graph=True)
         optimizer.step()
-        _dswd = distributional_sliced_wasserstein_distance(data.view(data.shape[0], -1),
-                                                           data_fake.view(data.shape[0], -1), num_projections, tnet,
-                                                           op_tnet,
-                                                           p, max_iter, lam,
-                                                           self.device)
+        _dswd = distributional_sliced_wasserstein_distance(
+            data.view(data.shape[0], -1),
+            data_fake.view(data.shape[0], -1),
+            num_projections,
+            tnet,
+            op_tnet,
+            p,
+            max_iter,
+            lam,
+            self.device,
+        )
         return _dswd
-
-
