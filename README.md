@@ -1,6 +1,6 @@
 ## Distributional Sliced Wasserstein distance
 This is a pytorch implementation of distributional sliced Wasserstein which is a sliced optimal transport distance between two probability measures. The work was done during the residency at [VinAI Research](https://vinai.io), Hanoi, Vietnam.
-Details of the model architecture and experimental results can be found in: "[our following paper](https://arxiv.org/pdf/2002.07367.pdf)"
+Details of the model architecture and experimental results can be found in: "[our following paper](https://arxiv.org/pdf/2002.07367.pdf)".
 ### Installation
 
 * python3.6
@@ -100,7 +100,7 @@ year={2021},
 url={https://openreview.net/forum?id=QYjO70ACDK}
 }
 ````
-Please CITE our paper whenever this repository is used to help produce published results or incorporated into other software
+Please CITE our paper whenever this repository is used to help produce published results or incorporated into other software.
 ## Some generated images
 ##### MNIST generated images
 ![MNIST](images/MNIST.png) 
