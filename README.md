@@ -1,14 +1,19 @@
 ## Distributional Sliced Wasserstein distance
-This is a pytorch implementation of the paper "[Distributional Sliced-Wasserstein and Applications to Generative Modeling](https://arxiv.org/pdf/2002.07367.pdf)". The work was done during the residency at [VinAI Research](https://vinai.io), Hanoi, Vietnam.
-### Requirement
+This is a pytorch implementation of distributional sliced Wasserstein which is a sliced optimal transport distance between two probability measures. The work was done during the residency at [VinAI Research](https://vinai.io), Hanoi, Vietnam.
+Details of the model architecture and experimental results can be found in: "[our following paper](https://arxiv.org/pdf/2002.07367.pdf)"
+### Installation
 
 * python3.6
-* pytorch 1.3
+* pytorch 1.4
 * torchvision
 * numpy
 * tqdm
 * POT
-### Train on MNIST and FMNIST
+
+````
+pip install pytorch==1.4.0 torchvision==0.5.0 numpy tqdm POT
+````
+### Train on MNIST
 ``` 
 python mnist.py \
     --datadir='./' \
@@ -81,6 +86,8 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 --r=1000;\
 --g='circular'
 ````
+### Evaluation
+Please use https://github.com/bioinf-jku/TTUR for evaluating the trained generative models.
 
 ## Bibtex:
 ````
