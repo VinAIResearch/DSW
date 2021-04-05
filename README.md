@@ -1,7 +1,5 @@
 ## Distributional Sliced Wasserstein distance
-This is a pytorch implementation of distributional sliced Wasserstein which is a sliced optimal transport distance between two probability measures. Details of the model architecture and experimental results can be found in: "[our following paper](https://arxiv.org/pdf/2002.07367.pdf)".
-
-### Bibtex:
+This is a pytorch implementation of distributional sliced Wasserstein which is a sliced optimal transport distance between two probability measures. Details of the model architecture and experimental results can be found in [our following paper](https://arxiv.org/pdf/2002.07367.pdf).
 ````
 @inproceedings{
 nguyen2021distributional,
