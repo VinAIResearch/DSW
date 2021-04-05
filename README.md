@@ -1,6 +1,18 @@
 ## Distributional Sliced Wasserstein distance
-This is a pytorch implementation of distributional sliced Wasserstein which is a sliced optimal transport distance between two probability measures. The work was done during the residency at [VinAI Research](https://vinai.io), Hanoi, Vietnam.
-Details of the model architecture and experimental results can be found in: "[our following paper](https://arxiv.org/pdf/2002.07367.pdf)".
+This is a pytorch implementation of distributional sliced Wasserstein which is a sliced optimal transport distance between two probability measures. Details of the model architecture and experimental results can be found in: "[our following paper](https://arxiv.org/pdf/2002.07367.pdf)".
+
+### Bibtex:
+````
+@inproceedings{
+nguyen2021distributional,
+title={Distributional Sliced-Wasserstein and Applications to Generative Modeling},
+author={Khai Nguyen and Nhat Ho and Tung Pham and Hung Bui},
+booktitle={International Conference on Learning Representations},
+year={2021},
+url={https://openreview.net/forum?id=QYjO70ACDK}
+}
+````
+Please CITE our paper whenever this repository is used to help produce published results or incorporated into other software.
 ### Installation
 
 * python3.6
@@ -11,7 +23,7 @@ Details of the model architecture and experimental results can be found in: "[ou
 * POT
 
 ````
-pip install pytorch==1.4.0 torchvision==0.5.0 numpy tqdm POT
+pip install torch==1.4.0 torchvision==0.5.0 numpy tqdm POT
 ````
 ### Train on MNIST
 ``` 
@@ -89,18 +101,6 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 ### Evaluation
 Please use https://github.com/bioinf-jku/TTUR for evaluating the trained generative models.
 
-## Bibtex:
-````
-@inproceedings{
-nguyen2021distributional,
-title={Distributional Sliced-Wasserstein and Applications to Generative Modeling},
-author={Khai Nguyen and Nhat Ho and Tung Pham and Hung Bui},
-booktitle={International Conference on Learning Representations},
-year={2021},
-url={https://openreview.net/forum?id=QYjO70ACDK}
-}
-````
-Please CITE our paper whenever this repository is used to help produce published results or incorporated into other software.
 ## Some generated images
 ##### MNIST generated images
 ![MNIST](images/MNIST.png) 
