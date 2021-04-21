@@ -19,7 +19,7 @@ from tqdm import tqdm
 from TransformNet import TransformNet
 from utils import circular_function, load_dmodel, save_dmodel
 
-
+torch.autograd.set_detect_anomaly(True)
 # torch.backends.cudnn.enabled = False
 class CustomDataset(Dataset):
     def __init__(self, root, image_loader=io.imread, transform=None):

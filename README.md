@@ -13,15 +13,16 @@ url={https://openreview.net/forum?id=QYjO70ACDK}
 Please CITE our paper whenever this repository is used to help produce published results or incorporated into other software.
 ### Installation
 
-* python3.6
-* pytorch 1.4
+* python>=3.6
+* pytorch>=1.4
 * torchvision
 * numpy
 * tqdm
 * POT
+* scikit-image
 
 ````
-pip install torch==1.4.0 torchvision==0.5.0 numpy tqdm POT
+pip install torch==1.4.0 torchvision==0.5.0 numpy tqdm POT scikit-image
 ````
 ### Train on MNIST
 ``` 
@@ -99,10 +100,13 @@ Options for Generalized Wasserstein Distance (using circular function for Genera
 ### Evaluation
 Please use https://github.com/bioinf-jku/TTUR for evaluating the trained generative models.
 
-## Some generated images
+### Some generated images
 ##### MNIST generated images
 ![MNIST](images/MNIST.png) 
 ##### CELEBA generated images
 ![MNIST](images/CelebA.png) 
 ##### LSUN generated images
 ![MNIST](images/LSUN.png) 
+
+### Acknowledgement
+Our code uses the implementation of Max-SW, GSW, Max-GSW-NN from https://github.com/kimiandj/gsw.
